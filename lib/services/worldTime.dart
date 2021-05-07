@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
+// This class's purpose is the retrieve the time either requested by the programmer
+// or the user.
+
 class WorldTime {
   String _location; // location name for UI
   String _time; // the time in that location
