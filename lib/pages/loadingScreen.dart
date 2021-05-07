@@ -10,9 +10,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
   String loadText = "loading";
 
   void setTime() async {
-    String time = await WorldTime(url: "America/Jamaica").getTime();
+    WorldTime time = WorldTime(url: "America/Jamaica", loc: "Jamaica");
 
-    setState(() => loadText = time);
+    String currtime = await time.generateTime();
+
+    setState(() => loadText = currtime);
   }
 
   @override
