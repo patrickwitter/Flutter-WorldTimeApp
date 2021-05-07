@@ -14,6 +14,8 @@ class WorldTime {
   String _url; // location url for api endpoint
   bool _isDaytime; // true or false if daytime or not
 
+  bool _wasSucc = false; //Determines if Retrieval of time data was succeful
+  String _errMess; // Error Message
   static Set<WorldTime> _knownTimes = {};
 
   // This constructor is used when the country is not already stored
@@ -27,7 +29,7 @@ class WorldTime {
     this._location = location;
   }
 
-  Future<String> generateTime() async {
+  Future<void> generateTime() async {
     String defaultLoc = "http://worldtimeapi.org/api/timezone/$_url";
 
     try {
@@ -52,16 +54,22 @@ class WorldTime {
 
       _knownTimes.add(this);
 
-      return this._time;
+      this._wasSucc = true;
+    } on FormatException catch (f) {
+      print("Formatting Error Occured $f");
+      this._errMess =
+          "Their was a problem with our server. Kindly reload the app";
     } catch (e) {
       print("Error Occurred $e");
-      return "An error had occured";
+      this._errMess = "An error had occured";
     }
   }
 
   String getTime() => this._time;
   String getLoc() => this._location;
   bool getIsDay() => this._isDaytime;
+  bool getSatus() => this._wasSucc;
+  String getErrMess() => this._errMess;
 
 // This function adjusts the orginal time retrieved from the http request
 // with the offset value provided from the request as well
