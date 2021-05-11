@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
@@ -16,24 +17,29 @@ class WorldTime {
 
   bool _wasSucc = false; //Determines if Retrieval of time data was succeful
   String _errMess; // Error Message
-  static Set<WorldTime> _knownTimes = {};
+
+  static Set<WorldTime> _knownTimes = {
+    WorldTime(url: "America/Jamaica", location: "Jamaica"),
+    WorldTime(url: "Europe/London", location: "London"),
+    WorldTime(url: "Europe/Berlin", location: "Berlin"),
+  };
 
   // This constructor is used when the country is not already stored
-  WorldTime({String url, String loc}) {
+  WorldTime({@required String url, @required String location}) {
     this._url = url;
-    this._location = loc;
-  }
-
-  // This constructor is used when the country is already stored
-  WorldTime.knownLoc({String location}) {
     this._location = location;
   }
 
-  Future<void> generateTime() async {
-    String defaultLoc = "http://worldtimeapi.org/api/timezone/$_url";
+  // // This constructor is used when the country is already stored
+  // WorldTime.knownLoc({String location}) {
+  //   this._location = location;
+  // }
 
+  Future<void> generateTime() async {
     try {
-      Response response = await get(Uri.parse(defaultLoc));
+      String apiLoc = "http://worldtimeapi.org/api/timezone/${this._url}";
+
+      Response response = await get(Uri.parse(apiLoc));
       // print(response.body);
 
       Map dateData = jsonDecode(response.body);
@@ -52,8 +58,6 @@ class WorldTime {
 
       this._isDaytime = _calcDayTime(this._time);
 
-      _knownTimes.add(this);
-
       this._wasSucc = true;
     } on FormatException catch (f) {
       print("Formatting Error Occured $f");
@@ -70,7 +74,7 @@ class WorldTime {
   bool getIsDay() => this._isDaytime;
   bool getSatus() => this._wasSucc;
   String getErrMess() => this._errMess;
-
+  static List<WorldTime> getKnownTimes() => _knownTimes.toList();
 // This function adjusts the orginal time retrieved from the http request
 // with the offset value provided from the request as well
 // Depending on the sign of the offset the time is offset
@@ -106,8 +110,6 @@ class WorldTime {
 
     return isDay;
   }
-
-  List<WorldTime> getKnownTimes() => _knownTimes.toList();
 
   @override
   String toString() {

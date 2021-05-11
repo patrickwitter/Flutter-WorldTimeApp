@@ -19,7 +19,7 @@ class WorldTime extends StatelessWidget {
         routes: {
           '/': (context) => LoadingScreen(),
           '/home': (context) => Home(),
-          '/chLoc': (context) => ChooseLoc()
+          '/chooseLoc': (context) => ChooseLoc()
         });
   }
 }

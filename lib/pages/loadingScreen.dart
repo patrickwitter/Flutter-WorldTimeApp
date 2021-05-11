@@ -10,13 +10,23 @@ class _LoadingScreenState extends State<LoadingScreen> {
   String loadText = "loading";
 
   void setTime() async {
-    WorldTime time = WorldTime(url: "America/Jamaica", loc: "Jamaica");
-    String requestText = "";
+    WorldTime time = WorldTime(url: "America/Jamaica", location: "Jamaica");
+
+    // WorldTime time = WorldTime.getKnownTimes()[1];
+    // print(time);
+
     await time.generateTime();
 
-    requestText = time.getSatus() ? time.getTime() : time.getErrMess();
-
-    setState(() => loadText = requestText);
+    if (time.getSatus()) {
+      Navigator.pushReplacementNamed(context, '/home', arguments: {
+        "time": time.getTime(),
+        "location": time.getLoc(),
+        "isDay": time.getIsDay(),
+        "worldTime": time,
+      });
+    } else {
+      setState(() => loadText = '${time.getErrMess()}');
+    }
   }
 
   @override
