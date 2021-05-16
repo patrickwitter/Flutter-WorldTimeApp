@@ -31,31 +31,23 @@ class WorldTime {
     this._location = location;
   }
 
-  // // This constructor is used when the country is already stored
-  // WorldTime.knownLoc({String location}) {
-  //   this._location = location;
-  // }
-
   Future<void> generateTime() async {
     try {
       String apiLoc = "http://worldtimeapi.org/api/timezone/${this._url}";
 
       Response response = await get(Uri.parse(apiLoc));
-      // print(response.body);
 
       Map dateData = jsonDecode(response.body);
 
       String offset = dateData["utc_offset"];
 
       DateTime currTime = DateTime.parse(dateData["datetime"]);
-      // print(currTime);
 
       //Adjusting for UTC offset
       currTime = _adjustOffset(time: currTime, offset: offset);
 
       // Formating dateTime to a more readable format and time and is isdaytime paramter
       this._time = DateFormat.jm().format(currTime);
-      // print("$this._time");
 
       this._isDaytime = _calcDayTime(this._time);
 
@@ -86,9 +78,6 @@ class WorldTime {
     int offsetHr = int.parse(offset.substring(1, 3));
     int offsetMin = int.parse(offset.substring(4, 6));
 
-    // print(
-    //     " Offset Hr $offsetHr Sign $sign Offset Min $offsetMin SignBool ${sign == "-"}");
-
     return (offsetSign == "-")
         ? time.subtract(Duration(hours: offsetHr, minutes: offsetMin))
         : time.add(Duration(hours: offsetHr, minutes: offsetMin));
@@ -102,13 +91,9 @@ class WorldTime {
     String timeOfDay =
         time.split(" ")[1]; // The time indication of the day eg. AM or PM
 
-    // print("TimeHR-$timeHr TimeofDay-$timeOfDay");
-
     bool isDay = (timeOfDay == "PM")
         ? ((timeHr >= 1 && timeHr <= 5) || timeHr == 12)
         : (timeHr >= 6 && timeHr <= 11);
-
-    // print(isDay);
 
     return isDay;
   }
