@@ -18,12 +18,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await time.generateTime();
 
     if (time.getSatus()) {
-      Navigator.pushReplacementNamed(context, '/home', arguments: {
-        "time": time.getTime(),
-        "location": time.getLoc(),
-        "isDay": time.getIsDay(),
-        "worldTime": time,
-      });
+      Navigator.pushReplacementNamed(context, '/home',
+          arguments: time.getMapProperties());
     } else {
       setState(() => loadText = '${time.getErrMess()}');
     }

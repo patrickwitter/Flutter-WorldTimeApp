@@ -11,7 +11,6 @@ class WorldTime {
 
   String _location; // location name for UI
   String _time; // the time in that location
-  String _flag; // url to an asset flag icon
   String _url; // location url for api endpoint
   bool _isDaytime; // true or false if daytime or not
 
@@ -75,6 +74,7 @@ class WorldTime {
   bool getSatus() => this._wasSucc;
   String getErrMess() => this._errMess;
   static List<WorldTime> getKnownTimes() => _knownTimes.toList();
+
 // This function adjusts the orginal time retrieved from the http request
 // with the offset value provided from the request as well
 // Depending on the sign of the offset the time is offset
@@ -114,5 +114,14 @@ class WorldTime {
   @override
   String toString() {
     return "Location: ${this._location}; Time: ${this._time}; ";
+  }
+
+  Map getMapProperties() {
+    return {
+      "time": this.getTime(),
+      "location": this.getLoc(),
+      "isDay": this.getIsDay(),
+      "worldTime": this,
+    };
   }
 }

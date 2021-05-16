@@ -10,7 +10,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
+    data = (data.isEmpty) ? ModalRoute.of(context).settings.arguments : data;
     String dataText =
         " Time - ${data["time"]}  Location - ${data["location"]} ";
     return Scaffold(
@@ -24,8 +24,15 @@ class _HomeState extends State<Home> {
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               TextButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/chooseLoc");
+                onPressed: () async {
+                  dynamic result =
+                      await Navigator.pushNamed(context, "/chooseLoc");
+                  setState(() {
+                    if (result is Map) {
+                      data = result;
+                      // print(data);
+                    }
+                  });
                 },
                 icon: Icon(
                   Icons.edit_location,
