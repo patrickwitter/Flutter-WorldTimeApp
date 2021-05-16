@@ -11,13 +11,10 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   String loadText = "loading";
-  Widget loadPic = ErrPic();
+  Widget loadPic = SpinImage();
 
   void setTime() async {
     WorldTime time = WorldTime(url: "America/Jamaica", location: "Jamaica");
-
-    // WorldTime time = WorldTime.getKnownTimes()[1];
-    // print(time);
 
     await time.generateTime();
 

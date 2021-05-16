@@ -21,6 +21,8 @@ class WorldTime {
     WorldTime(url: "America/Jamaica", location: "Jamaica"),
     WorldTime(url: "Europe/London", location: "London"),
     WorldTime(url: "Europe/Berlin", location: "Berlin"),
+    WorldTime(url: "America/New_York", location: "New_York"),
+    WorldTime(url: "Asia/Ho_Chi_Minh", location: "Ho_Chi_Minh"),
   };
 
   // This constructor is used when the country is not already stored
