@@ -14,7 +14,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget loadPic = ErrPic();
 
   void setTime() async {
-    WorldTime time = WorldTime(url: "America/Jamica", location: "Jamaica");
+    WorldTime time = WorldTime(url: "America/Jamaica", location: "Jamaica");
 
     // WorldTime time = WorldTime.getKnownTimes()[1];
     // print(time);
@@ -48,16 +48,32 @@ class _LoadingScreenState extends State<LoadingScreen> {
 class ErrPic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 100,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage("worldtimeapp/assets/images/brokenApp.png"),
+    return Column(
+      // mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Expanded(
+          flex: 3,
+          child: Container(
+            height: 100,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage("assets/images/brokenApp.png"),
+              ),
+            ),
           ),
         ),
-      ),
+        Expanded(
+          flex: 1,
+          child: Text(
+            "Kindly Restart the App",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 40,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -65,9 +81,12 @@ class ErrPic extends StatelessWidget {
 class SpinImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SpinKitFadingCube(
-      color: Colors.blue,
-      size: 100,
+    return FractionallySizedBox(
+      heightFactor: 0.5,
+      child: SpinKitFadingCube(
+        color: Colors.blue,
+        size: 100,
+      ),
     );
   }
 }
