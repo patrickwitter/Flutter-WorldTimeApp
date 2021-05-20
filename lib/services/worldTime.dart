@@ -100,6 +100,7 @@ class WorldTime {
     return "Location: ${this._location}; Time: ${this._time}; ";
   }
 
+//Used to pass time information between screens
   Map getMapProperties() {
     return {
       "time": this.getTime(),

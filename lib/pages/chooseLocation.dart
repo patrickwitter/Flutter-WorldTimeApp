@@ -14,8 +14,7 @@ class _ChooseLocState extends State<ChooseLoc> {
     WorldTime chosenTime = locations[index];
     await chosenTime.generateTime();
     Navigator.pop(context); //Pop Loading Dialog Off screen.
-    //TODO: Handle Exception where api call fails
-    print(chosenTime);
+
     if (chosenTime.getSatus()) {
       Navigator.pop(context, chosenTime.getMapProperties());
     } else {
