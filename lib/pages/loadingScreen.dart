@@ -1,5 +1,3 @@
-// import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:worldtimeapp/services/worldTime.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,7 +8,6 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  String loadText = "loading";
   Widget loadPic = SpinImage();
 
   void setTime() async {
@@ -78,7 +75,7 @@ class SpinImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      heightFactor: 0.5,
+      heightFactor: 0.8,
       child: SpinKitFadingCube(
         color: Colors.blue,
         size: 100,

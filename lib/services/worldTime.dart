@@ -7,13 +7,10 @@ import 'package:intl/intl.dart';
 // or the user.
 
 class WorldTime {
-  // final  String defText = "UNKNOWN"; // This is default text
-
   String _location; // location name for UI
   String _time; // the time in that location
   String _url; // location url for api endpoint
   bool _isDaytime; // true or false if daytime or not
-
   bool _wasSucc = false; //Determines if Retrieval of time data was succeful
   String _errMess; // Error Message
 
@@ -71,7 +68,7 @@ class WorldTime {
 
 // This function adjusts the orginal time retrieved from the http request
 // with the offset value provided from the request as well
-// Depending on the sign of the offset the time is offset
+// Depending on the sign of the offset the offset
 // is either added or substracted from the original time.
   DateTime _adjustOffset({DateTime time, String offset}) {
     var offsetSign = offset[0];
