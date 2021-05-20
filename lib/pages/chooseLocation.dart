@@ -9,17 +9,22 @@ class ChooseLoc extends StatefulWidget {
 class _ChooseLocState extends State<ChooseLoc> {
   List<WorldTime> locations = WorldTime.getKnownTimes();
 
-  void updateTime(int index) async {
+  void updateTime(int index, BuildContext context) async {
+    showLoadingDialog(context);
     WorldTime chosenTime = locations[index];
-
     await chosenTime.generateTime();
-
-    Navigator.pop(context, chosenTime.getMapProperties());
+    Navigator.pop(context); //Pop Loading Dialog Off screen.
+    //TODO: Handle Exception where api call fails
+    print(chosenTime);
+    if (chosenTime.getSatus()) {
+      Navigator.pop(context, chosenTime.getMapProperties());
+    } else {
+      showErrorDialog(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(location);
     return Scaffold(
       appBar: AppBar(
         title: Text("Choose Location"),
@@ -33,7 +38,7 @@ class _ChooseLocState extends State<ChooseLoc> {
               child: ListTile(
                 leading: Icon(Icons.flag),
                 title: Text("${locations[index].getLoc()}"),
-                onTap: () async => updateTime(index),
+                onTap: () async => updateTime(index, context),
               ),
             );
           },
@@ -41,4 +46,48 @@ class _ChooseLocState extends State<ChooseLoc> {
       ),
     );
   }
+}
+
+void showErrorDialog(BuildContext context) {
+  // Create button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text(
+        "This time for the location is unavailable.Please try again later"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+    barrierDismissible: false,
+  );
+}
+
+void showLoadingDialog(BuildContext context) {
+  Widget loading = AlertDialog(
+    title: Text(
+      "Location Time is Loading",
+    ),
+    content: Text("Please Wait..."),
+  );
+
+  showDialog(
+    context: context,
+    builder: (context) => loading,
+    barrierDismissible: false,
+  );
 }
